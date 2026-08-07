@@ -7,6 +7,15 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-07
+
+只有 CI 的维护性改动，App 功能与 1.0.0 完全一致。
+
+### Changed
+
+- `actions/checkout` 与 `actions/upload-artifact` 升到 v5。GitHub 已弃用 Node.js 20，
+  v4 会被强制跑在 Node 24 上并打一条告警
+
 ## [1.0.0] - 2026-08-07
 
 第一个正式分发的版本。功能与 0.1.0 一致，区别在签名。
@@ -78,4 +87,4 @@
 - 状态项窗口的 `NSWindow.windowNumber` 是 2^33 量级的值，跟 `kCGWindowNumber` 不是一回事
 - `CGPreflightScreenCaptureAccess()` 不能当前置拦截用，只能用于失败后的归因
 
-[Unreleased]: https://github.com/WloBy-Labs/MacBarWaiter/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/WloBy-Labs/MacBarWaiter/compare/v1.0.1...HEAD
