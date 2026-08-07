@@ -50,10 +50,11 @@ macOS 的状态项是从右往左排的，排不下的不会折叠、不会换�
 [Releases](https://github.com/WloBy-Labs/MacBarWaiter/releases) 里有拖拽安装的 DMG。
 打开后把 MacBarWaiter 拖进 Applications 即可。
 
-> Release 包目前是 ad-hoc 签名（仓库没配签名 Secret），所以首次打开 Gatekeeper 会警告，
-> 需要在「系统设置 → 隐私与安全性」里点「仍要打开」。而且**每次更新后屏幕录制权限都要
-> 重新授予一次** —— 签名变了，TCC 会当成另一个 App。
-> 想避免的话自己从源码构建（见下），或者给仓库配上 `MACOS_CERT_P12`。
+> Release 包用固定的自签身份签名（`MacBarWaiter CI Signing`），所以**更新之间不需要
+> 重新授予屏幕录制权限**。但证书未经 Apple 公证，首次打开 Gatekeeper 仍会警告，
+> 需要在「系统设置 → 隐私与安全性」里点一次「仍要打开」。
+>
+> 例外：0.1.0 那一版是 ad-hoc 签名的，从它升到 1.0.0 需要再授权一次。
 
 自己构建的话，依赖只有 macOS 14+ 与 Command Line Tools（提供 `swiftc`）：
 
@@ -239,8 +240,12 @@ release notes 取自 `release_notes/v<版本>.md`。签名是渐进式的：
 | 配置了什么 Secret | 结果 |
 | --- | --- |
 | 无 | ad-hoc 签名（能用，但 Gatekeeper 会警告，且更新后要重新授权） |
-| `MACOS_CERT_P12` + `MACOS_CERT_PASSWORD` | 用该身份签名，权限可跨更新保留（跑 `make_signing_cert.sh` 生成） |
+| `MACOS_CERT_P12` + `MACOS_CERT_PASSWORD` | 用该身份签名，权限可跨更新保留 ← **本仓库当前如此** |
 | 再加 `APPLE_ID` + `APPLE_TEAM_ID` + `APPLE_APP_PASSWORD` | 额外公证并 staple |
+
+签名证书由 `scripts/make_signing_cert.sh` 生成，本仓库那张存在
+`~/Library/Application Support/MacBarWaiter/signing/ci/`（与 KeyboardWaiter 同一约定）。
+**这张 p12 要长期保留** —— 换证书等于换身份，用户得重新授权一次。
 
 发版步骤：
 

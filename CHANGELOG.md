@@ -7,6 +7,19 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-07
+
+第一个正式分发的版本。功能与 0.1.0 一致，区别在签名。
+
+### Changed
+
+- **Release 包改用稳定的自签身份签名**（`MacBarWaiter CI Signing`，仓库 Secrets 里的
+  `MACOS_CERT_P12`）。0.1.0 是 ad-hoc 签名，每次构建签名都变，TCC 会当成另一个 App，
+  于是每次更新都要重新授予屏幕录制权限。换成固定身份后不再需要
+- 证书本身要长期保留：换一张新证书等于换身份，用户又得重新授权一次
+
+> 从 0.1.0 升上来需要再授权一次屏幕录制（最后一次）—— 签名身份变了。
+
 ## [0.1.0] - 2026-08-07
 
 第一版：一个下拉面板，把菜单栏上所有状态项（含被挤掉看不见的）原样列出来。
@@ -65,4 +78,4 @@
 - 状态项窗口的 `NSWindow.windowNumber` 是 2^33 量级的值，跟 `kCGWindowNumber` 不是一回事
 - `CGPreflightScreenCaptureAccess()` 不能当前置拦截用，只能用于失败后的归因
 
-[Unreleased]: https://github.com/WloBy-Labs/MacBarWaiter/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/WloBy-Labs/MacBarWaiter/compare/v1.0.0...HEAD
