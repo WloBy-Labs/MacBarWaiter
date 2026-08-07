@@ -5,9 +5,6 @@
 格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
-> **0.x 属于设计调试阶段**：只在此维护变更记录，不打 tag、不出包。
-> 等设计稳定后再提升到 1.0.0，届时才开始发布 Release 包。
-
 ## [Unreleased]
 
 ## [0.1.0] - 2026-08-07

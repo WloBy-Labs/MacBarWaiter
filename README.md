@@ -45,21 +45,28 @@ macOS 的状态项是从右往左排的，排不下的不会折叠、不会换�
 | 判断哪些当前不可见 | `SCWindow.isOnScreen` |
 | 对应到某一块屏的菜单栏 | 按 `SCWindow.frame.minY` 分组 |
 
-## 安装
+## 下载与安装
 
-依赖：macOS 14+ 与 Command Line Tools（提供 `swiftc`）。
+[Releases](https://github.com/WloBy-Labs/MacBarWaiter/releases) 里有拖拽安装的 DMG。
+打开后把 MacBarWaiter 拖进 Applications 即可。
+
+> Release 包目前是 ad-hoc 签名（仓库没配签名 Secret），所以首次打开 Gatekeeper 会警告，
+> 需要在「系统设置 → 隐私与安全性」里点「仍要打开」。而且**每次更新后屏幕录制权限都要
+> 重新授予一次** —— 签名变了，TCC 会当成另一个 App。
+> 想避免的话自己从源码构建（见下），或者给仓库配上 `MACOS_CERT_P12`。
+
+自己构建的话，依赖只有 macOS 14+ 与 Command Line Tools（提供 `swiftc`）：
 
 ```bash
-scripts/package_app.sh          # 产出 dist/MacBarWaiter.app
+scripts/bootstrap_local_signing.sh   # 一次性：建立稳定签名身份，保住权限
+scripts/package_app.sh               # 产出 dist/MacBarWaiter.app
 open dist/MacBarWaiter.app
 ```
 
 想常驻的话，把 `dist/MacBarWaiter.app` 拖进 `/Applications`。
-也可以 `scripts/make_dmg.sh` 打个拖拽安装的 DMG。
+也可以 `scripts/make_dmg.sh` 打个 DMG。
 
-> 当前处于 0.x 设计调试阶段，尚不打 tag、不出正式包。
-
-### 一、建立稳定的本地签名身份（强烈建议先做）
+### 建立稳定的本地签名身份（自己构建时强烈建议先做）
 
 **不做的话，每次重新构建后「屏幕录制」权限都要重新授予一遍。** 因为默认走 ad-hoc 签名，
 代码签名每次都变，TCC 会把它当成另一个 App。
@@ -71,7 +78,7 @@ scripts/bootstrap_local_signing.sh
 一次性操作，会要你输密码（它往登录钥匙串里装一张自签的代码签名证书并设为受信任）。
 之后 `package_app.sh` 会自动用这个身份签名，权限就能跨重建保住。
 
-### 二、授权屏幕录制（必须）
+### 授权屏幕录制（必须）
 
 抓图需要**屏幕录制**权限，这是 ScreenCaptureKit 的硬要求，绕不过去。
 
@@ -235,7 +242,12 @@ release notes 取自 `release_notes/v<版本>.md`。签名是渐进式的：
 | `MACOS_CERT_P12` + `MACOS_CERT_PASSWORD` | 用该身份签名，权限可跨更新保留（跑 `make_signing_cert.sh` 生成） |
 | 再加 `APPLE_ID` + `APPLE_TEAM_ID` + `APPLE_APP_PASSWORD` | 额外公证并 staple |
 
-当前 **0.x 属于设计调试阶段**：只维护 `CHANGELOG.md`，不打 tag。
+发版步骤：
+
+1. 更新 `VERSION`
+2. 在 `CHANGELOG.md` 顶部新增对应版本小节，把 `[Unreleased]` 里累积的条目挪过去
+3. 新建 `release_notes/v<版本>.md`
+4. 提交并推送，然后 `git tag -a v<版本> && git push origin v<版本>`
 
 ## License
 
