@@ -7,6 +7,13 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `actions/upload-artifact` 从 v5 升到 v6。1.0.1 里把它升到 v5 并没有消掉 Node 20 弃用
+  告警 —— v5 只是「preliminary support for Node.js 24」，默认仍跑在 Node 20 上，
+  真正切换默认运行时的是 v6。没选 v7 是因为 v7 还引入了 ESM 重写和 `archive: false`
+  直传特性，改动面更大，而这里只是上传一个 DMG
+
 ## [1.0.1] - 2026-08-07
 
 只有 CI 的维护性改动，App 功能与 1.0.0 完全一致。
