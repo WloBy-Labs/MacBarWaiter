@@ -7,6 +7,18 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-07
+
+换了新图标，和 WloBy 其他 App 统一版式。App 功能没有改动。
+
+### Changed
+
+- **新 App 图标**：青绿底 + 菜单栏条（右侧图标实心、往左淡出）+ 朝下箭头，
+  下方 `WLOBY MB` 字标。底色特意跟 PrWaiter 的靛蓝、KeyboardWaiter 的石墨区分开
+- 图标改成**逐尺寸渲染**成 iconset，不再是「画一张 1024 PNG 再 `sips` 缩」。
+  因为字标只在 128px 以上出现，小尺寸要用不同画面，缩放做不到这件事。
+  细元素（条高、圆点、箭头线宽）给了最小像素下限，避免在小尺寸退化到亚像素消失
+
 ### Fixed
 
 - `actions/upload-artifact` 从 v5 升到 v6。1.0.1 里把它升到 v5 并没有消掉 Node 20 弃用
@@ -94,4 +106,4 @@
 - 状态项窗口的 `NSWindow.windowNumber` 是 2^33 量级的值，跟 `kCGWindowNumber` 不是一回事
 - `CGPreflightScreenCaptureAccess()` 不能当前置拦截用，只能用于失败后的归因
 
-[Unreleased]: https://github.com/WloBy-Labs/MacBarWaiter/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/WloBy-Labs/MacBarWaiter/compare/v1.1.0...HEAD
